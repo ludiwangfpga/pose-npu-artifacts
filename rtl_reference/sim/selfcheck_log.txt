@@ -1,0 +1,23 @@
+$ xvlog -sv conv3x3_mac_pair.v conv3x3_mac_array.v tb_mac_selfcheck.v
+$ xelab --debug off --relax -L work --snapshot macref work.tb_mac_selfcheck
+$ xsim macref -R
+
+Vivado Simulator 2019.2
+
+=========================================================
+  conv3x3_mac_array -- self-check against an independent
+  nested-loop model of the arithmetic stated in the paper
+---------------------------------------------------------
+  multiply-accumulates per cycle : 1152
+  activation beats driven        : 560
+  complete windows expected      : 558
+  psum_we strobes observed       : 558
+  samples compared               : 558
+  zero activation bytes driven   : 9842
+  packed-DSP artifact terms      : 58659
+  MISMATCHES                     : 0
+  RESULT: PASS
+=========================================================
+$finish called at time : 6085 ns : File "tb_mac_selfcheck.v" Line 216
+exit
+INFO: [Common 17-206] Exiting xsim at Fri Sep  4 16:56:09 2026...

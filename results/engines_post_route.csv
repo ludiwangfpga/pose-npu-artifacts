@@ -1,0 +1,16 @@
+engine,instance,status,SliceLUTs,LUT_logic,LUT_mem,SliceRegisters,BRAM_tile,RAMB36,RAMB18,DSP,CARRY4,prim_LUTcells,prim_FFcells
+conv33,npu_top_inst/conv3_top_inst,OK,24318,23945,373,60836,106,97,18,576,4759,0,0
+conv11,npu_top_inst/conv11_top_inst,OK,17211,16863,348,28743,81,71,20,128,4102,0,0
+add,npu_top_inst/add_top_inst,OK,14489,14455,34,17512,12,12,0,32,3711,0,0
+cat,npu_top_inst/cat_top_inst,OK,14195,14161,34,17252,31,30,2,16,3671,0,0
+sppf,npu_top_inst/sppf_top_inst,OK,12138,12135,3,7554,20,20,0,0,1946,0,0
+upsample,npu_top_inst/upsample_top_inst,OK,917,917,0,767,8,8,0,0,18,0,0
+focus,npu_top_inst/focus_top_inst,OK,725,725,0,599,8,8,0,0,18,0,0
+dwconv,npu_top_inst/dw_top_inst,OK,16215,16209,6,7170,10,10,0,17,2507,0,0
+rrfae_fused,npu_top_inst/mm_attn_fused_top_inst,OK,33711,31436,2275,13244,34,34,0,80,5261,0,0
+matmul_legacy,npu_top_inst/mm_top_inst,NOT_INSTANTIATED_replaced_by_RRFAE,,,,,,,,,,,
+softmax_legacy,npu_top_inst/softmax_top_inst,NOT_INSTANTIATED_replaced_by_RRFAE,,,,,,,,,,,
+reg_ctrl,npu_top_inst/reg_ctrl_inst,OK,68,68,0,599,4,4,0,0,14,0,0
+stream_switch,npu_top_inst/stream_switch_inst,OK,2020,2020,0,1524,0,0,0,0,0,0,0
+NPU_TOTAL,npu_top_inst,OK,137467,134394,3073,160274,314,294,40,849,26007,0,0
+eth2npu,eth2npu_top_inst,OK,302,302,0,582,2,2,0,0,17,0,0

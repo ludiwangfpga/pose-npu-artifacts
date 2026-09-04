@@ -1,0 +1,18 @@
+VCD: data/p5f_probes.vcd
+timescale 1 ps, ends at 286.487 ms
+
+frame 3 spans 57294.910 us  (all five frames are cycle-identical)
+
+engine                busy (us)     share   instrs
+conv3x3                 19492.2     34.0%       44
+conv1x1                 27310.2     47.7%       69
+depthwise conv           3629.6      6.3%        8
+element-wise add          609.6      1.1%       20
+concatenation            3333.3      5.8%       29
+SPPF                       98.1      0.2%        3
+upsample                  389.6      0.7%        2
+fused attention          2405.4      4.2%        4
+sum                     57267.9    100.0%
+
+The engines execute one instruction at a time: the intervals of the eight
+classes do not overlap, so the sum above is the occupied fraction of the frame.

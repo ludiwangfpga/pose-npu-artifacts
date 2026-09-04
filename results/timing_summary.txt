@@ -1,0 +1,96 @@
+tag=attempt1
+synth_strategy=Vivado Synthesis Defaults
+impl_strategy=Performance_Explore
+part=xc7z100ffg900-2
+WNS=0.070
+TNS=0.000
+TNS_FAILING_EP=0
+TNS_TOTAL_EP=357374
+WHS=0.048
+THS=0.000
+THS_FAILING_EP=0
+THS_TOTAL_EP=357215
+WPWS=0.062
+TPWS=0.000
+TPWS_FAILING_EP=0
+CLK|SYS_CLK_0_clk_p|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=2.047
+CLK|pl_clk|period_ns=20.000|freq_mhz=50.000|intra_wns_ns=NA
+CLK|clkfbout_clk_wiz_0|period_ns=20.000|freq_mhz=50.000|intra_wns_ns=NA
+CLK|clk_out1_clk_wiz_0|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=0.070
+CLK|clk_out2_clk_wiz_0|period_ns=8.000|freq_mhz=125.000|intra_wns_ns=0.322
+CLK|clk_out4_clk_wiz_0|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=NA
+CLK|pll_clkfbout|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=NA
+CLK|freq_refclk|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=NA
+CLK|mem_refclk|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=0.192
+CLK|sync_pulse|period_ns=20.000|freq_mhz=50.000|intra_wns_ns=NA
+CLK|pll_clk3_out|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=NA
+CLK|mmcm_clkfbout|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=NA
+CLK|clk_ref_mmcm_400|period_ns=2.500|freq_mhz=400.000|intra_wns_ns=1.773
+CLK|oserdes_clk|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=NA
+CLK|oserdes_clk_1|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=NA
+CLK|oserdes_clk_2|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=NA
+CLK|u_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_mc_phy_wrapper/u_ddr_mc_phy/ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_A.ddr_byte_lane_A/iserdes_clk|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=NA
+CLK|oserdes_clk_3|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=0.196
+CLK|u_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_mc_phy_wrapper/u_ddr_mc_phy/ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_B.ddr_byte_lane_B/iserdes_clk|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=NA
+CLK|oserdes_clk_4|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=0.183
+CLK|u_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_mc_phy_wrapper/u_ddr_mc_phy/ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_C.ddr_byte_lane_C/iserdes_clk|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=NA
+CLK|oserdes_clk_5|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=0.191
+CLK|u_memc_ui_top_axi/mem_intfc0/ddr_phy_top0/u_ddr_mc_phy_wrapper/u_ddr_mc_phy/ddr_phy_4lanes_1.u_ddr_phy_4lanes/ddr_byte_lane_D.ddr_byte_lane_D/iserdes_clk|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=NA
+CLK|oserdes_clk_6|period_ns=1.250|freq_mhz=800.000|intra_wns_ns=0.203
+CLK|clk_pll_i|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=0.388
+CLK|mmcm_ps_clk_bufg_in|period_ns=10.000|freq_mhz=100.000|intra_wns_ns=2.801
+CLK|oserdes_clkdiv|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=4.011
+CLK|oserdes_clkdiv_1|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=4.010
+CLK|oserdes_clkdiv_2|period_ns=5.000|freq_mhz=200.000|intra_wns_ns=4.015
+CLK|iserdes_clkdiv|period_ns=2.500|freq_mhz=400.000|intra_wns_ns=0.973
+CLK|oserdes_clkdiv_3|period_ns=2.500|freq_mhz=400.000|intra_wns_ns=1.511
+CLK|iserdes_clkdiv_1|period_ns=2.500|freq_mhz=400.000|intra_wns_ns=0.997
+CLK|oserdes_clkdiv_4|period_ns=2.500|freq_mhz=400.000|intra_wns_ns=1.510
+CLK|iserdes_clkdiv_2|period_ns=2.500|freq_mhz=400.000|intra_wns_ns=1.002
+CLK|oserdes_clkdiv_5|period_ns=2.500|freq_mhz=400.000|intra_wns_ns=1.511
+CLK|iserdes_clkdiv_3|period_ns=2.500|freq_mhz=400.000|intra_wns_ns=0.979
+CLK|oserdes_clkdiv_6|period_ns=2.500|freq_mhz=400.000|intra_wns_ns=1.351
+CLK|phy_rxc|period_ns=8.000|freq_mhz=125.000|intra_wns_ns=4.823
+CLK|phy_txc|period_ns=8.000|freq_mhz=125.000|intra_wns_ns=NA
+DEV_LUT_TOTAL=277400
+DEV_FF_TOTAL=554800
+DEV_BRAM_TILE_TOTAL=755
+DEV_DSP_TOTAL=2020
+ENGINE|conv33|LUT=24318|FF=60836|BRAMtile=106|DSP=576|CARRY4=4759|(prim LUTcells=0)
+ENGINE|conv11|LUT=17211|FF=28743|BRAMtile=81|DSP=128|CARRY4=4102|(prim LUTcells=0)
+ENGINE|add|LUT=14489|FF=17512|BRAMtile=12|DSP=32|CARRY4=3711|(prim LUTcells=0)
+ENGINE|cat|LUT=14195|FF=17252|BRAMtile=31|DSP=16|CARRY4=3671|(prim LUTcells=0)
+ENGINE|sppf|LUT=12138|FF=7554|BRAMtile=20|DSP=0|CARRY4=1946|(prim LUTcells=0)
+ENGINE|upsample|LUT=917|FF=767|BRAMtile=8|DSP=0|CARRY4=18|(prim LUTcells=0)
+ENGINE|focus|LUT=725|FF=599|BRAMtile=8|DSP=0|CARRY4=18|(prim LUTcells=0)
+ENGINE|dwconv|LUT=16215|FF=7170|BRAMtile=10|DSP=17|CARRY4=2507|(prim LUTcells=0)
+ENGINE|rrfae_fused|LUT=33711|FF=13244|BRAMtile=34|DSP=80|CARRY4=5261|(prim LUTcells=0)
+ENGINE|matmul_legacy|NOT_INSTANTIATED_replaced_by_RRFAE
+ENGINE|softmax_legacy|NOT_INSTANTIATED_replaced_by_RRFAE
+ENGINE|reg_ctrl|LUT=68|FF=599|BRAMtile=4|DSP=0|CARRY4=14|(prim LUTcells=0)
+ENGINE|stream_switch|LUT=2020|FF=1524|BRAMtile=0|DSP=0|CARRY4=0|(prim LUTcells=0)
+ENGINE|NPU_TOTAL|LUT=137467|FF=160274|BRAMtile=314|DSP=849|CARRY4=26007|(prim LUTcells=0)
+ENGINE|eth2npu|LUT=302|FF=582|BRAMtile=2|DSP=0|CARRY4=17|(prim LUTcells=0)
+ENGINE_CSV=<project root>/rtl/bitgen/build_attempt1/attempt1_engines.csv
+POWER_DISCLAIMER=Vivado report_power estimate on the routed netlist. NOT a board measurement.
+SCOPE_CENSUS|PS7=0
+SCOPE_CENSUS|MMCM=3
+SCOPE_CENSUS|PLL=1
+SCOPE_CENSUS|BUFG=9
+SCOPE_CENSUS|DSP48E1=849
+SCOPE_CENSUS|RAMB36E1=315
+SCOPE_CENSUS|RAMB18E1=72
+POWER_MODE|vectorless (default toggle rate, no simulation activity)
+POWER_VECTORLESS|Total On-Chip Power (W)=6.683
+POWER_VECTORLESS|Design Power Budget (W)=Unspecified*
+POWER_VECTORLESS|Power Budget Margin (W)=NA
+POWER_VECTORLESS|Dynamic (W)=6.368
+POWER_VECTORLESS|Device Static (W)=0.315
+POWER_VECTORLESS|Effective TJA (C/W)=1.8
+POWER_VECTORLESS|Max Ambient (C)=73.3
+POWER_VECTORLESS|Junction Temperature (C)=36.7
+POWER_VECTORLESS|Confidence Level=Low
+POWER_VECTORLESS|Design Nets Matched=NA
+POWER_VECTORLESS_REPORT=<project root>/rtl/bitgen/build_attempt1/attempt1_power_vectorless.rpt
+POWER_SAIF|SKIPPED no saif at <project root>/rtl/bitgen/saif/npu_short.saif
+DONE

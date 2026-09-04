@@ -1,0 +1,78 @@
+==============================================================================
+[1] instruction streams: word counts, per-type histogram, words-per-instr
+==============================================================================
+words/instr (V3): {'conv33': 16, 'conv11': 16, 'add': 9, 'cat': 12, 'sppf': 7, 'upsample': 6, 'focus': 5, 'matmul': 9, 'softmax': 7, 'dwconv': 12, 'fused': 13}
+deploy(unfused): 2421 words, 178 instructions, hist={'conv33': 38, 'conv11': 66, 'add': 20, 'cat': 29, 'sppf': 3, 'matmul': 8, 'softmax': 4, 'dwconv': 8, 'upsample': 2}
+  word ledger closes: sum(words/instr) == 2421 OK
+fused: 2373 words, 170 instructions, hist={'conv33': 38, 'conv11': 66, 'add': 20, 'cat': 29, 'sppf': 3, 'fused': 4, 'dwconv': 8, 'upsample': 2}
+  word ledger closes: sum(words/instr) == 2373 OK
+
+==============================================================================
+[2] deploy stream: feature-pool slot usage + head/img/weight address audit
+==============================================================================
+pool slots used: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]  (n=10)
+pool top: 0x1B000000  (10 slots x 16 MiB)
+head addrs in stream: ['0x27000000', '0x27100000', '0x28000000', '0x28100000', '0x29000000', '0x29100000']
+weight-arena addrs: 114 distinct, max 0x7100000
+
+==============================================================================
+[3] kpt tower shapes from <checkpoint>.pt (CPU)
+==============================================================================
+H0: cv4[0] (85, 64, 3, 3)  cv4[1] (85, 85, 3, 3)  cv4_kpts (51, 85, 1, 1)
+H1: cv4[0] (85, 128, 3, 3)  cv4[1] (85, 85, 3, 3)  cv4_kpts (51, 85, 1, 1)
+H2: cv4[0] (85, 256, 3, 3)  cv4[1] (85, 85, 3, 3)  cv4_kpts (51, 85, 1, 1)
+confirmed: cin={0: 64, 1: 128, 2: 256}, mid=85->pad96, kpt=51->pad64
+nc = 1  kpt_shape = [17, 3]
+
+==============================================================================
+[4] kpt weight blob sizes -- via the REAL serializers on zero arrays
+==============================================================================
+H0.kpt.0 conv33 64->96:  56,832 B   kpt.1 conv33 96->96: 84,480 B   kpt.2 conv11 96->64: 6,656 B
+H1.kpt.0 conv33 128->96: 112,128 B   kpt.1 conv33 96->96: 84,480 B   kpt.2 conv11 96->64: 6,656 B
+H2.kpt.0 conv33 256->96: 222,720 B   kpt.1 conv33 96->96: 84,480 B   kpt.2 conv11 96->64: 6,656 B
+kpt weight total: 665,088 B = 649.5 KiB -> 9 blobs x 1 MiB slot = 9 MiB arena increment
+
+==============================================================================
+[5] encode 9 kpt instructions with real geometry -> V3 field range check
+==============================================================================
+9 kpt instructions encode OK (all fields in range): 144 words
+
+==============================================================================
+[6] head buffers, readback bytes, packets, time model
+==============================================================================
+
+--- chunk = 1472 B/read (standard MTU 1500) ---
+box: [102400, 25600, 6400]  sum=134,400 B  pkts=[70, 18, 5] sum=93  tails=[832, 576, 512]
+cls(nc=1 pad16): [102400, 25600, 6400]  sum=134,400 B  pkts=[70, 18, 5] sum=93  tails=[832, 576, 512]
+kpt(51 pad64): [409600, 102400, 25600]  sum=537,600 B  pkts=[279, 70, 18] sum=367  tails=[384, 832, 576]
+stream           bytes  pkts | line-rate floor | RTT=20us | RTT=50us | RTT=100us
+detect         268,800   186 |      2.50 ms   |   6.22 ms|  11.80 ms|   21.10 ms
+pose           537,600   367 |      4.99 ms   |  12.33 ms|  23.34 ms|   41.69 ms
+dual           806,400   553 |      7.49 ms   |  18.55 ms|  35.14 ms|   62.79 ms
+
+--- chunk = 2040 B/read (jumbo frames) ---
+box: [102400, 25600, 6400]  sum=134,400 B  pkts=[51, 13, 4] sum=68  tails=[400, 1120, 280]
+cls(nc=1 pad16): [102400, 25600, 6400]  sum=134,400 B  pkts=[51, 13, 4] sum=68  tails=[400, 1120, 280]
+kpt(51 pad64): [409600, 102400, 25600]  sum=537,600 B  pkts=[201, 51, 13] sum=265  tails=[1600, 400, 1120]
+stream           bytes  pkts | line-rate floor | RTT=20us | RTT=50us | RTT=100us
+detect         268,800   136 |      2.40 ms   |   5.12 ms|   9.20 ms|   16.00 ms
+pose           537,600   265 |      4.80 ms   |  10.10 ms|  18.05 ms|   31.30 ms
+dual           806,400   401 |      7.20 ms   |  15.22 ms|  27.25 ms|   47.30 ms
+
+cross-check: measured COCO-80 deployment readback = box16+cls80 = 806,400 B (== pose dual 806,400: True)
+anchor const region: 8400 cells x 4 B (u16 Q8.8 ax,ay) = 33,600 B (16B-mult: True)
+
+==============================================================================
+[7] instruction budget
+==============================================================================
+deploy(unfused): 2421 + 144 (kpt: 6xconv33@16w + 3xconv11@16w) = 2565  margin vs 4095: 1530 words (37.4%)
+fused: 2373 + 144 (kpt: 6xconv33@16w + 3xconv11@16w) = 2517  margin vs 4095: 1578 words (38.5%)
+
+==============================================================================
+[8] map-level asserts (pose map)
+==============================================================================
+weight arena: now 0x7200000 (114 MiB) -> pose 0x7C00000 (124 MiB) <= IMG 0x10000000 OK
+feature pool: now top 0x1B000000 -> worst-case pose 0x1D000000 <= 0x27000000 OK (margin 10 slots)
+head regions: box@+0x0, cls@+0x100000, kpt@+0x200000 no overlap; map top 0x29300000 < 1 GiB OK
+
+ALL CHECKS PASSED

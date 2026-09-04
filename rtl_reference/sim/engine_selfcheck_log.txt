@@ -1,0 +1,24 @@
+$ xvlog -sv conv3x3_mac_pair.v conv3x3_mac_array.v conv3x3_requant.v \
+         conv3x3_engine.v tb_engine_selfcheck.v
+$ xelab --debug off --relax -L work --snapshot eng work.tb_engine_selfcheck
+$ xsim eng -R
+
+Vivado Simulator 2019.2
+
+=========================================================
+  conv3x3_engine -- self-check against an independent
+  int8 convolution and the requantization of Section II-B
+---------------------------------------------------------
+  input channels                 : 32 (2 groups)
+  multiply-accumulates per cycle : 1152
+  output positions expected      : 78
+  dout_we strobes observed       : 78
+  M = 18000, output zero-point = 12
+  packed-DSP artifact terms      : 13219
+  saturated high / low           : 290 / 0
+  MISMATCHES                     : 0
+  RESULT: PASS
+=========================================================
+$finish called at time : 2655 ns : File "tb_engine_selfcheck.v" Line 223
+exit
+INFO: [Common 17-206] Exiting xsim at Fri Sep  4 18:14:31 2026...

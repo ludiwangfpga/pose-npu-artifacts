@@ -1,0 +1,7 @@
+# golden flavor: quirk
+# golden dir: <project root>\toolchain\export_pose_zfold_quirk\golden
+regions compared: 173/173  PENDING=0
+bit-exact: 173   within-standard: 173   VIOLATIONS: 0
+global |d| histogram (nonzero): {} (all bytes identical)
+
+VERDICT: PASS (all 171 regions within P3 standard)

@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-01",
+  "machine": {
+    "cpu": "Intel Core i9-10900 @ 2.80GHz",
+    "gpu": "NVIDIA GeForce RTX 2080 SUPER 8GB",
+    "gpu_driver": "457.51",
+    "python_env": "<project root>/../venv312 (torch 2.7.1+cu118)"
+  },
+  "model": "YOLO26n-fpga-pose (fused: 132 layers, 2,926,494 params, 7.5 GFLOPs)",
+  "checkpoint": "<checkpoint>.pt",
+  "imgsz": 640,
+  "batch": 1,
+  "note": "lean = toolchain/lean_infer.py one2one-only + BN-fuse path (per gpu-baseline-must-be-optimized rule; naive rows are strawman, listed for reference only)",
+  "gpu": {
+    "naive_eager": {"ms": 16.84, "fps": 59.37},
+    "lean_one2one_eager": {"ms": 10.01, "fps": 99.88},
+    "lean_cuda_graph": {"ms": 4.35, "fps": 229.69},
+    "sustained_15s_cuda_graph_fps": 228.3,
+    "power_system_load_w": 275.0,
+    "power_system_source": "wall/current-meter measurement of the whole PC under GPU inference load (user-measured 2026-09-01); this is the number for the comparison table -- a GPU cannot run without the host PC",
+    "power_gpu_board_only_avg_w": 92.1,
+    "power_gpu_board_only_max_w": 93.4,
+    "power_gpu_board_only_idle_w": 53.3,
+    "power_gpu_board_only_source": "nvidia-smi power.draw polled at 2Hz during sustained load; board-only, NOT comparable to standalone-device power"
+  },
+  "cpu": {
+    "naive_eager": {"ms": 71.44, "fps": 14.00},
+    "lean_one2one_fuse": {"ms": 53.21, "fps": 18.79},
+    "power_note": "system wall power under CPU-only load not yet measured (use the same current-meter method as the GPU row; TDP is not a fair substitute once system power is the basis)"
+  },
+  "power_basis": "whole-device wall power for every row: PC total for CPU/GPU (a discrete GPU cannot run without the host), board total for the FPGA (standalone device, 6.71 W current-meter)",
+  "equivalence": "lean vs unfused ref max |d| = 1.236e-03 (known BN-folding rounding, documented bound 2.1e-3)"
+}

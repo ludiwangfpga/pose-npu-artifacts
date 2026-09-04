@@ -1,0 +1,22 @@
+{
+  "note": "Extract of the two configurations reported in Table 3 of the paper. Metric: pycocotools keypoint AP (OKS 0.50:0.95, maxDets=20) on the COCO val2017 subset with keypoint annotations.",
+  "protocol": {
+    "images": 2346,
+    "persons": 6352,
+    "input": "square letterbox 640, pad 114, BGR->RGB",
+    "score_threshold": 0.001,
+    "max_det": 20
+  },
+  "arms": {
+    "float32 reference (same pipeline)": {
+      "AP": 0.5263,
+      "AP50": 0.8007,
+      "AP75": 0.5689
+    },
+    "int8 + compile-time folding (deployed arm)": {
+      "AP": 0.4787,
+      "AP50": 0.7841,
+      "AP75": 0.5087
+    }
+  }
+}
