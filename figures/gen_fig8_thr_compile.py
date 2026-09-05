@@ -6,7 +6,7 @@ three classification branches under each threshold-compilation scheme.
 A deviation-from-target dot plot: the reference line is the specified
 probability T, each marker is one branch under one scheme, and the stem ties
 the marker to the reference so the deviation is the length of the stem. The
-per-item values are in Table 4 and in results/perscale_thr_ablation.json.
+per-item values are in Table 4 of the article.
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

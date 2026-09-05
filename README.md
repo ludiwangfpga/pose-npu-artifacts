@@ -20,7 +20,6 @@ weight blobs are not part of this release.
 | `timing_summary.txt` | V-C timing: WNS +0.070 ns, TNS 0, WHS +0.048 ns, 0 of 357,374 endpoints failing, and the full clock table. |
 | `device_utilization.rpt` | V-C device-level utilization (LUT 156,676 / 56.5%, DSP 849 / 42.0%, and the rest of Table 2's totals). |
 | `table3_accuracy.json` | Table 3, the float32 reference and the deployed arm. |
-| `perscale_thr_ablation.json` | Tables 4 and 5 and Fig. 11: the per-scale quantization steps, the compiled constants n_T,k, the per-branch effective probabilities and the AP deltas of every compilation method. Its `n_sent` field is the candidate count over the whole evaluation set; the cells-per-frame column of Table 4 is derived from the full 8,400-cell grid rather than from `n_sent`, which the top-300 candidate cap truncates. |
 | `fullnet_regression.txt` | V-B: the 173-region byte-for-byte full-network regression verdict. The counts in the body of the file are the result: 173 of 173 regions compared, 173 bit-exact, 0 violations, an empty difference histogram. The trailing `VERDICT` line carries a region count from an earlier revision of the comparison script and should be read against those counts. |
 | `dump_region_map.json` | V-B: the instruction-to-region map, and the two regions that two instructions each write, which is why the dump has fewer regions than the stream has instructions. |
 | `verify_ddr_map_output.txt` | IV-B: the captured run of the address-map verification script (`ALL CHECKS PASSED`). |
@@ -32,7 +31,6 @@ weight blobs are not part of this release.
 |---|---|
 | `verify_ddr_map.py` | Re-derives the off-chip address map from first-hand sources and asserts every address and capacity constraint of IV-B. This is the verification script the paper refers to. It reads the keypoint-tower tensor shapes from the trained checkpoint (set `POSE_CKPT`), which is not released; its captured output is in `results/`. |
 | `engine_busy_time.py` | Computes the per-engine busy time of Table 2 from `data/p5f_probes.vcd` with a self-contained VCD reader. Runs standalone. |
-| `perscale_thr_ablation.py` | The threshold-compilation ablation of V-D: compiles the probability threshold into per-scale integer constants, runs the per-branch and cross-scale-ranking comparisons, and writes `perscale_thr_ablation.json`. Needs the candidate set, which is not released; the script is included so the procedure and the arithmetic can be read. |
 | `fpga_numerics.py` | The bit-accurate integer model of the hardware datapath: the requantization convention of II-B, the `>>16` round-half-up convolution path, `>>32` for element-wise addition and `>>30` for concatenation. This is what generates the golden that V-B compares against. |
 | `packed_dsp_quirk.py` | The packed-DSP arithmetic model of V-B: two int8 multiplications share one DSP48E1, and when the data byte is 0 and the odd-channel weight is negative the even-channel accumulation is larger by one. The two model functions are the point of interest; the emitter they patch is not part of this release, so the file is for reading rather than running. |
 | `compare_pose.py` | The byte-for-byte judge used for the full-network regression. |
@@ -71,7 +69,6 @@ accelerator itself.
 `engine_busy_time.py` runs as it is on `data/p5f_probes.vcd` and needs only a
 Python 3 interpreter; it reproduces the busy-time columns of Table 2 exactly.
 `verify_ddr_map.py` additionally needs PyTorch and the checkpoint, `lean_infer.py`
-needs PyTorch and the checkpoint, and `perscale_thr_ablation.py` needs the
 candidate set; none of those inputs is released, so the captured output of each
 is provided in `results/` instead.
 
