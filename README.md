@@ -68,9 +68,9 @@ accelerator itself.
 
 `engine_busy_time.py` runs as it is on `data/p5f_probes.vcd` and needs only a
 Python 3 interpreter; it reproduces the busy-time columns of Table 2 exactly.
-`verify_ddr_map.py` additionally needs PyTorch and the checkpoint, `lean_infer.py`
-candidate set; none of those inputs is released, so the captured output of each
-is provided in `results/` instead.
+`verify_ddr_map.py` and `lean_infer.py` additionally need PyTorch and the
+checkpoint; neither is released, so the captured output of each is provided in
+`results/` instead.
 
 Local absolute paths and checkpoint file names have been replaced by placeholders
 (`<project root>`, `<checkpoint>.pt`) or by environment variables (`POSE_ROOT`,
