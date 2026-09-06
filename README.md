@@ -23,7 +23,7 @@ weight blobs are not part of this release.
 | `fullnet_regression.txt` | V-B: the 173-region byte-for-byte full-network regression verdict. The counts in the body of the file are the result: 173 of 173 regions compared, 173 bit-exact, 0 violations, an empty difference histogram. The trailing `VERDICT` line carries a region count from an earlier revision of the comparison script and should be read against those counts. |
 | `dump_region_map.json` | V-B: the instruction-to-region map, and the two regions that two instructions each write, which is why the dump has fewer regions than the stream has instructions. |
 | `verify_ddr_map_output.txt` | IV-B: the captured run of the address-map verification script (`ALL CHECKS PASSED`). |
-| `desktop_bench.json` | Table 9: the desktop CPU/GPU reference for the same checkpoint, including the power basis of each row. |
+| `desktop_bench.json` | Table 10: the desktop CPU/GPU reference for the same checkpoint, including the power basis of each row. |
 
 ### `scripts/` — how the numbers are derived
 
@@ -34,7 +34,7 @@ weight blobs are not part of this release.
 | `fpga_numerics.py` | The bit-accurate integer model of the hardware datapath: the requantization convention of II-B, the `>>16` round-half-up convolution path, `>>32` for element-wise addition and `>>30` for concatenation. This is what generates the golden that V-B compares against. |
 | `packed_dsp_quirk.py` | The packed-DSP arithmetic model of V-B: two int8 multiplications share one DSP48E1, and when the data byte is 0 and the odd-channel weight is negative the even-channel accumulation is larger by one. The two model functions are the point of interest; the emitter they patch is not part of this release, so the file is for reading rather than running. |
 | `compare_pose.py` | The byte-for-byte judge used for the full-network regression. |
-| `lean_infer.py` | The optimized desktop-GPU inference path used for Table 9, so that the GPU row is a fused, CUDA-graph baseline rather than a naive one. |
+| `lean_infer.py` | The optimized desktop-GPU inference path used for Table 10, so that the GPU row is a fused, CUDA-graph baseline rather than a naive one. |
 
 ### `rtl_reference/`
 
