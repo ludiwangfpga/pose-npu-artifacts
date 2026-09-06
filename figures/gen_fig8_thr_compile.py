@@ -1,12 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-Figure 11 of the article: the probability actually in effect on each of the
-three classification branches under each threshold-compilation scheme.
+fig8_thr_compile (2.0, 2026-09-04) -- effective per-branch probability vs
+threshold compile scheme.  Section V-D, beside Table V.
 
-A deviation-from-target dot plot: the reference line is the specified
-probability T, each marker is one branch under one scheme, and the stem ties
-the marker to the reference so the deviation is the length of the stem. The
-per-item values are in Table 4 of the article.
+Form.  A deviation-from-target dot plot (Cleveland dot plot with a reference
+line): the reference is the specified probability T, each dot is one branch's
+effective enforced probability under one compile scheme, and a thin stem ties
+the dot back to T so the eye reads DISTANCE FROM TARGET, up (stricter) or down
+(more permissive).  Cleveland & McGill: position along a common scale is the
+most accurately judged encoding; the stem carries no ink weight of its own.
+
+Rules applied (dataviz + fig_style): one accent (contribution-2 green) for the
+per-scale scheme, de-emphasis grey for the three shared-constant schemes;
+branch identity by marker shape (secondary encoding, colour-blind safe) with a
+legend; direct labels only at the two extremes; solid hairline decade grid
+(log axis); the target line is the one dashed element (it IS a threshold);
+no prose inside the plot.
+
+Data first hand: toolchain/repr_sweep/perscale_thr_ablation.json (same run as
+Table V); the 3.0e-7 entry is the unrounded value from the sweep log.
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -23,13 +35,13 @@ plt.rcParams["mathtext.rm"] = "Arial"
 
 # ------------------------------------------------------------------ data ---
 T = 0.01
-STEP = [0.10503, 0.22544, 0.34163]
+STEP = [0.10218, 0.24122, 0.37023]
 BRANCH = ['P3', 'P4', 'P5']
 SCHEME = [
-    ('on P3',        [0.00974, 4.9e-5,   3.0e-7 ]),
-    ('on P4',        [0.09925, 8.713e-3, 7.65e-4]),
-    ('on P5',        [0.18688, 4.085e-2, 8.303e-3]),
-    ('per-scale',    [0.00974, 8.71e-3,  8.30e-3]),
+    ('on P3',        [0.0099703, 1.93e-05, 5.81e-08]),
+    ('on P4',        [0.1147, 0.007967, 0.000608]),
+    ('on P5',        [0.20943, 0.04165, 0.008058]),
+    ('per-scale',    [0.0099703, 0.007967, 0.008058]),
 ]
 XPOS = [0.0, 1.0, 2.0, 3.35]                 # gap before the per-scale group
 OFF = (-0.22, 0.0, 0.22)
