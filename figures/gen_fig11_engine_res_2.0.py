@@ -1,27 +1,31 @@
 # -*- coding: utf-8 -*-
 """
 Figure 8 of the article: how the nine engine classes divide the two scarce
-resources, LUT and DSP.
+resources, LUT and DSP, drawn as two Vivado "Utilization" panels.
 
-Two small multiples share one percentage axis, and both denominators are the
-nine-engine totals, so the panels are directly comparable: the fused attention
-engine takes a quarter of the LUTs and a tenth of the DSPs, the 3x3 convolution
-the reverse. The underlying counts are in Table 2 and in
-results/engines_post_route.csv.
+Look and colours are taken from the Vivado Project Summary utilization graph
+(pixel-sampled from the Xilinx university-program lab screenshot,
+xilinx.github.io/xup_fpga_vivado_flow/images/lab1/Fig37.png):
+  bar fill        #73e66a   (edge #a1ec9c)
+  panel ground    #f6f6f6
+  header strip    #ededed, bold black title
+  axis / labels   #404040
+  bar value text  #808080, bold, "NN%"
+  grid lines      #bebebe at 0 / 25 / 50 / 75 / 100
+Both panels are shares of the nine-engine totals (133,919 LUT, 849 DSP), so
+they are directly comparable; the underlying counts are in Table 2.
 """
-import sys
 import os
-
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-from fig_style import *          # noqa: F401,F403
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+
+from fig_style import COL1, save, use_style
 
 use_style()
 
 MUL = "×"
-
-# --------------------------------------------------------------- data ---
 ENGINES = [
     ("Fused attn.",          33711,  80),
     ("Conv 3%s3" % MUL,      24318, 576),
@@ -33,71 +37,61 @@ ENGINES = [
     ("Upsample / Focus", 917 + 725,   0),
 ]
 LUT_TOT, DSP_TOT = 133919, 849
-names = [e[0] for e in ENGINES]
 lut_sh = [100.0 * e[1] / LUT_TOT for e in ENGINES]
 dsp_sh = [100.0 * e[2] / DSP_TOT for e in ENGINES]
+names = [e[0] for e in ENGINES]
 
-DEV_LUT, DEV_DSP = 277400.0, 2020.0
-EX_LUT, EX_DSP = 41529.0, 704.0
-BUILT = [("Slice", 78.84), ("LUT", 56.48), ("DSP", 42.03)]
-EXTRA = {"Slice": 0.0, "LUT": EX_LUT / DEV_LUT * 100.0,
-         "DSP": EX_DSP / DEV_DSP * 100.0}
+# ---- Vivado palette (sampled) ----------------------------------------------
+BAR, BAR_EDGE = "#73e66a", "#a1ec9c"
+GROUND, HEADER = "#f6f6f6", "#ededed"
+INK, VALUE, GRID = "#404040", "#808080", "#bebebe"
 
-# ------------------------------------------------------------- colours ---
-ACC = ORANGE_C3          # the fused attention engine (contribution 3)
-DIM = "#a9a9a9"          # de-emphasis grey for the other engines
-FILL = C_MID             # as-built fill in the meter
-TRACK = C_LIGHT          # the unfilled part of the meter track
-RULE = C_GRAY            # hairline axes
-DASH = (0, (2.6, 1.6))   # projection, and nothing else, is dashed
-
-# --------------------------------------------------------------- figure ---
-fig = plt.figure(figsize=(COL1 + 0.6, 2.30))
-gs = fig.add_gridspec(1, 2, width_ratios=[1.0, 1.0],
-                      wspace=0.16, left=0.245, right=0.975,
-                      top=0.90, bottom=0.235)
-axL = fig.add_subplot(gs[0, 0])
-axD = fig.add_subplot(gs[0, 1], sharey=axL)
-
+FS_TICK, FS_LABEL, FS_VALUE, FS_HEAD = 7.0, 7.5, 7.0, 7.5
 n = len(ENGINES)
-ypos = [n - 1 - i for i in range(n)]
-BH = 0.56
-XMAX = 72.0
+
+fig = plt.figure(figsize=(COL1 + 0.6, 2.45))
+fig.patch.set_facecolor("white")
+# two panels; the left one carries the row labels
+L, R, TOP, BOT, GAP = 0.30, 0.995, 0.86, 0.19, 0.06
+W = (R - L - GAP) / 2.0
+axL = fig.add_axes([L, BOT, W, TOP - BOT])
+axD = fig.add_axes([L + W + GAP, BOT, W, TOP - BOT])
 
 
-def multiple(ax, vals, unit, label_rows):
-    for i, y in enumerate(ypos):
-        c = ACC if i == 0 else DIM
-        if vals[i] > 0:
-            ax.barh(y, vals[i], height=BH, color=c, edgecolor="none", zorder=3)
-        else:
-            ax.text(1.2, y, "0", ha="left", va="center", fontsize=FS_NOTE,
-                    color=INK, zorder=4)
-    for i in label_rows:
-        ax.text(vals[i] + 1.4, ypos[i], "%.0f" % vals[i], ha="left",
-                va="center", fontsize=FS_NOTE, color=INK, zorder=4)
-    ax.set_xlim(0, XMAX)
-    ax.set_xticks([0, 20, 40, 60])
-    ax.set_xlabel(unit, fontsize=FS_LABEL, labelpad=2)
-    strip(ax, left=False, bottom=True)
-    ax.spines["bottom"].set_color(RULE)
-    ax.spines["bottom"].set_bounds(0, 70)
-    ax.tick_params(axis="x", color=RULE)
-    ax.tick_params(axis="y", length=0, pad=4)
+def panel(ax, vals, title):
+    ax.set_facecolor(GROUND)
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.spines["bottom"].set_color(INK)
+    ax.spines["bottom"].set_linewidth(0.8)
+    ax.set_xlim(0, 112)
+    ax.set_ylim(-0.6, n - 0.4)
+    for x in (25, 50, 75, 100):
+        ax.axvline(x, color=GRID, lw=0.6, zorder=1)
+    ys = list(range(n))[::-1]
+    ax.barh(ys, vals, height=0.52, color=BAR, edgecolor=BAR_EDGE, lw=0.5, zorder=3)
+    for y, v in zip(ys, vals):
+        ax.text(v + 1.8, y, "%d%%" % round(v), ha="left", va="center",
+                fontsize=FS_VALUE, fontweight="bold", color=VALUE, zorder=4)
+    ax.set_xticks([0, 25, 50, 75, 100])
+    ax.tick_params(axis="x", colors=INK, labelsize=FS_TICK, length=3, width=0.8)
+    ax.tick_params(axis="y", length=0)
+    ax.set_xlabel("Utilization (%)", fontsize=FS_LABEL, color=INK, labelpad=2)
+    # header strip in figure coordinates, directly above the panel
+    x0, y0, w, h = ax.get_position().bounds
+    fig.patches.append(Rectangle((x0, y0 + h), w, 0.09, transform=fig.transFigure,
+                                 facecolor=HEADER, edgecolor="none", zorder=0))
+    fig.text(x0 + 0.012, y0 + h + 0.045, "Utilization", ha="left", va="center",
+             fontsize=FS_HEAD, fontweight="bold", color="black")
+    fig.text(x0 + w - 0.012, y0 + h + 0.045, title, ha="right", va="center",
+             fontsize=FS_HEAD, fontweight="bold", color=INK)
+    return ys
 
 
-multiple(axL, lut_sh, "% of engine LUT", (0, 1))
-multiple(axD, dsp_sh, "% of engine DSP", (0, 1))
-axL.set_ylim(-0.75, n - 1 + 0.75)
-axL.set_yticks(ypos)
-axL.set_yticklabels(names, fontsize=FS_TICK)
-plt.setp(axD.get_yticklabels(), visible=False)
-
-# identity of the emphasised row comes from the accent bar that sits right
-# beside its label -- no swatch, and the label itself stays in ink.
-# one title over BOTH multiples, so they read as one panel with two measures
-_x0 = axL.get_position().x0
-_x1 = axD.get_position().x1
-
+ys = panel(axL, lut_sh, "LUT")
+panel(axD, dsp_sh, "DSP")
+axL.set_yticks(ys)
+axL.set_yticklabels(names, fontsize=FS_TICK, color=INK)
+axD.set_yticks([])
 
 save(fig, "fig11_engine_res_2.0")
