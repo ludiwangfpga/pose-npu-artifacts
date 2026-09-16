@@ -1,7 +1,7 @@
 # Artifacts for the pose-NPU paper
 
-Supporting data and scripts for *An Ethernet Instruction-Driven INT8 FPGA NPU for
-Single-Stage Multi-Person Pose Estimation* (Wang and Ohkawa, Kumamoto University).
+Supporting data and scripts for *An Instruction-Driven INT8 FPGA NPU for
+Single-Stage Multi-Person YOLO26-Pose Estimation* (Wang and Ohkawa, Kumamoto University).
 
 This repository is a **reviewer-facing artifact set, not a source release**. It
 contains the measurement records behind every table and figure of the paper and
@@ -23,7 +23,7 @@ weight blobs are not part of this release.
 | `fullnet_regression.txt` | V-B: the 173-region byte-for-byte full-network regression verdict. The counts in the body of the file are the result: 173 of 173 regions compared, 173 bit-exact, 0 violations, an empty difference histogram. The trailing `VERDICT` line carries a region count from an earlier revision of the comparison script and should be read against those counts. |
 | `dump_region_map.json` | V-B: the instruction-to-region map, and the two regions that two instructions each write, which is why the dump has fewer regions than the stream has instructions. |
 | `verify_ddr_map_output.txt` | IV-B: the captured run of the address-map verification script (`ALL CHECKS PASSED`). |
-| `desktop_bench.json` | Table 10: the desktop CPU/GPU reference for the same checkpoint, including the power basis of each row. |
+| `desktop_bench.json` | Table 10: the desktop CPU/GPU reference rows (official YOLO26n-pose, float32; the accuracy column in the paper is the value published by Ultralytics), including the power basis of each row. |
 
 ### `scripts/` — how the numbers are derived
 
